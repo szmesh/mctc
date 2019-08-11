@@ -16,3 +16,17 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/') {
+    sessionStorage.removeItem('user')
+  }
+  const user = sessionStorage.getItem('user')
+  if (!user && to.path !== '/') {
+    next({
+      path: '/'
+    })
+  } else {
+    next()
+  }
+})

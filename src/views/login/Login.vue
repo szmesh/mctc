@@ -21,6 +21,13 @@
                   placeholder="密码"
         ></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-input type="text"
+                  v-model="ruleForm2.verify"
+                  auto-complete="off"
+                  placeholder="验证码"
+        ><el-image slot="append" class="verify-image" :src="ruleForm2.verifyImage"></el-image></el-input>
+      </el-form-item>
       <el-checkbox
         v-model="checked"
         class="rememberme"
@@ -38,12 +45,15 @@ export default {
     return {
       logining: false,
       ruleForm2: {
-        username: 'adminDeploy',
-        password: '123456'
+        username: '',
+        password: '',
+        verify: '',
+        verifyImage: 'https://localhost/mcts/api/verify/'
       },
       rules2: {
         username: [{required: true, message: 'please enter your account', trigger: 'blur'}],
-        password: [{required: true, message: 'enter your password', trigger: 'blur'}]
+        password: [{required: true, message: 'enter your password', trigger: 'blur'}],
+        verify: [{required: true, message: 'enter verify code', trigger: 'blur'}]
       },
       checked: false
     }
@@ -54,10 +64,10 @@ export default {
         if (valid) {
           this.logining = true
           if (this.ruleForm2.username === 'admin' &&
-              this.ruleForm2.password === '123456') {
+              this.ruleForm2.password === 'admin') {
             this.logining = false
-            // sessionStorage.setItem('user', this.ruleForm2.username)
-            // this.$router.push({path: '/'})
+            sessionStorage.setItem('user', this.ruleForm2.username)
+            this.$router.push({path: '/home'})
           } else {
             this.logining = false
             this.$alert('username or password wrong!', 'info', {
@@ -92,5 +102,12 @@ export default {
   label.el-checkbox.rememberme {
     margin: 0px 0px 15px;
     text-align: left;
+  }
+  .el-input .el-input-group__append {
+    padding: 0;
+  }
+  .verify-image {
+    width: 100px;
+    height: 30px;
   }
 </style>
